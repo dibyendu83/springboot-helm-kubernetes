@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: bitnami/mysql:8.0.40  # Using Bitnami MySQL image
+    container_name: mysql-db
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    environment:
+      MYSQL_DATABASE: mysqldb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+      ALLOW_EMPTY_PASSWORD: "no"  # Enforce password usage
+    ports:
+      - "3300:3306"
+    volumes:
+      - mysql_data:/bitnami/mysql  # Persistent data
+    networks:
+      - springboot-mysql-network
+
+  app:
+    image: spring-boot-app:1.0.0  # Spring Boot application image
+    container_name: spring-boot-app
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILE: prod  # Activates 'prod' profile in Spring Boot
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: mysqldb
+      DB_USERNAME: user
+      DB_PASSWORD: password
+      SERVER_PORT: 8080
+    ports:
+      - "8080:8080"
+    networks:
+      - springboot-mysql-network
+
+volumes:
+  mysql_data:
+
+networks:
+  springboot-mysql-network:

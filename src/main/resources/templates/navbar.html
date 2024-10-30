@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/static/css/styles.css"> <!-- Your custom CSS file -->
+  <style>
+    .navbar-nav .nav-link {
+      transition: all 0.3s ease; /* Smooth transition for hover effects */
+    }
+
+    .navbar-nav .nav-link.active {
+      color: #007bff; /* Change text color for active link */
+      background-color: rgba(0, 123, 255, 0.1); /* Light background for active state */
+      font-weight: bold; /* Bold text for active state */
+      border-radius: 4px; /* Optional: Add rounded corners */
+      text-decoration: underline; /* Underline active link */
+    }
+
+    .navbar-nav .nav-link:hover {
+      text-decoration: underline; /* Underline on hover for all links */
+    }
+  </style>
+</head>
+<body>
+<div th:fragment="navbar">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand">MyApp</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mx-auto"> <!-- Centered links -->
+        <!-- Home Link -->
+        <li class="nav-item">
+          <a class="nav-link" th:classappend="${page} == 'home' ? 'active' : ''" href="/home">
+            <i class="fas fa-home"></i> Home
+          </a>
+        </li>
+
+        <!-- Profile Link -->
+        <li class="nav-item">
+          <a class="nav-link" th:classappend="${page} == 'profile' ? 'active' : ''" href="/profile">
+            <i class="fas fa-user"></i> Profile
+          </a>
+        </li>
+      </ul>
+
+      <!-- Logout Link on the right -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link text-danger" href="/logout">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

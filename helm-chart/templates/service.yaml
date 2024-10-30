@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.springboot.service.name }}
+spec:
+  selector:
+    app: {{ .Values.springboot.service.name }}
+  type: {{ .Values.springboot.service.type }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.springboot.service.port }}
+      targetPort: {{ .Values.springboot.service.port }}

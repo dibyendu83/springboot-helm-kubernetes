@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/springboot_learning
+    username: root
+    password: password
+
+server:
+  port: 8080

@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.mysql.service.name }}
+spec:
+  serviceName: {{ .Values.mysql.service.name }}
+  replicas: {{ .Values.mysql.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.mysql.service.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.mysql.service.name }}
+    spec:
+      containers:
+        - name: mysql
+          image: {{ .Values.mysql.image }}
+          env:
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.springboot.app.name }}-config
+                  key: MYSQL_DATABASE
+            - name: MYSQL_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.springboot.app.name }}-config
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.springboot.app.name }}-secret
+                  key: MYSQL_PASSWORD
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.springboot.app.name }}-secret
+                  key: MYSQL_ROOT_PASSWORD
+            - name: ALLOW_EMPTY_PASSWORD
+              value: "no"
+          ports:
+            - containerPort: {{ .Values.mysql.service.port }}
+          volumeMounts:
+            - name: mysql-storage
+              mountPath: /var/lib/mysql  # MySQL data directory
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-storage  # Used in volumeMounts
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: {{ .Values.mysql.pvc.storage }}

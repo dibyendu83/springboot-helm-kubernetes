@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.springboot.app.name }}-config
+data:
+  MYSQL_USER: "{{ .Values.mysql.username }}"
+  MYSQL_DATABASE: "{{ .Values.mysql.database }}"
+  SPRING_PROFILE: "{{ .Values.springboot.profile }}"

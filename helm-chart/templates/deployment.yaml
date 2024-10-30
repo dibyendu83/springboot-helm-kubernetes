@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.springboot.service.name }}
+spec:
+  replicas: {{ .Values.springboot.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.springboot.service.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.springboot.service.name }}
+    spec:
+      containers:
+        - name: {{ .Values.springboot.app.name }}
+          image: {{ .Values.springboot.image }}
+          imagePullPolicy: {{ .Values.springboot.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.springboot.service.port }}
+          env:
+            - name: SPRING_PROFILE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.springboot.app.name }}-config
+                  key: SPRING_PROFILE
+            - name: DB_HOST
+              value: {{ .Values.mysql.service.name }}
+            - name: DB_PORT
+              value: "{{ .Values.mysql.service.port }}"
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.springboot.app.name }}-config
+                  key: MYSQL_DATABASE
+            - name: DB_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.springboot.app.name }}-config
+                  key: MYSQL_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.springboot.app.name }}-secret
+                  key: MYSQL_PASSWORD
+            - name: SERVER_PORT
+              value: "{{ .Values.springboot.service.port }}"

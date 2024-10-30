@@ -1,0 +1,26 @@
+mysql:
+  image: bitnami/mysql:8.0.40
+  service:
+    clusterIP: None
+    name: mysql
+    port: 3306
+  pvc:
+    storage: 1Gi
+  replicas: 1
+  username: user
+  database: mysqldb
+
+springboot:
+  image: dibyendu83/spring-boot-app:1.0.0
+  imagePullPolicy: Always
+  replicas: 2
+  service:
+    name: springboot
+    port: 8080
+    type: ClusterIP
+  app:
+    name: springboot-app
+    host: spring-k8s-demo.com
+  profile: prod
+
+

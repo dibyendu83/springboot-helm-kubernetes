@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: springboot-learning
+
+  profiles:
+    active: ${SPRING_PROFILE}
+
+  thymeleaf:
+    cache: false
+    suffix: .html
+    prefix: classpath:/templates/
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: mysql
+    show-sql: true
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+server:
+  servlet:
+    context-path: /
+  forward-headers-strategy: framework

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .input-group-text {
+            background-color: #e9ecef;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container d-flex align-items-center justify-content-center min-vh-100">
+    <div class="card shadow-lg" style="width: 30rem;">
+        <div class="card-body p-5">
+            <h3 class="text-center mb-4">Sign Up</h3>
+
+            <!-- Success Alert -->
+            <div th:if="${message}" class="alert alert-[[${alertType}]] alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle me-2"></i>
+                <span th:text="${message}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <!-- Signup Form -->
+            <form th:action="@{/signup}" method="post" th:object="${signUpRequest}">
+                <div class="mb-3">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                        <input type="text" class="form-control" id="firstName" name="firstName" th:field="*{firstname}" placeholder="Enter your first name" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                        <input type="text" class="form-control" id="lastName" name="lastName" th:field="*{lastname}" placeholder="Enter your last name" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                        <input type="email" class="form-control" id="email" name="email" th:field="*{email}" placeholder="Enter your email" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                        <input type="password" class="form-control" id="password" name="password" th:field="*{password}" placeholder="Enter your password" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone No</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                        <input type="tel" class="form-control" id="phone" name="phone" th:field="*{phone}" placeholder="Enter your phone number" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="dob" class="form-label">Date of Birth</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        <input type="date" class="form-control" id="dob" name="dob" th:field="*{dob}" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="sex" class="form-label">Sex</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa fa-venus-mars"></i></span>
+                        <select class="form-select" id="sex" name="sex" th:field="*{sex}" required>
+                            <option value="" selected disabled>Select your sex</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa fa-map-marker-alt"></i></span>
+                        <textarea class="form-control" id="address" name="address" rows="3" th:field="*{address}" placeholder="Enter your address" required></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+
+                <hr>
+
+                <div class="text-center">
+                    <p>Already have an account? <a href="/login" class="text-decoration-none">Login here</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS (optional) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
