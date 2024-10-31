@@ -55,12 +55,13 @@ Before deploying the application, you may need to configure the following parame
 ## Usage
 
 1. Before deploying the application using helm need to install **NGINX** Ingress controller using helm
-   - Add the NGINX Helm repository: ``` helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx ```
-   - Update the helm repo : ``` helm repo update ```
+   - Add the NGINX Helm repository: ``` helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx ```.
+   - Update the helm repo : ``` helm repo update ```.
    - Install the NGINX Ingress Controller: ``` helm install nginx-ingress ingress-nginx/ingress-nginx --namespace ingress --create-namespace ```
-   - Verify the installation: ``` kubectl get all -n ingress ```
-2. Deploy the application using Helm: ``` helm install springboot-app helm-chart```
-3. Access the application: ``` http://spring-demo.com```
+   - Verify the installation: ``` kubectl get all -n ingress ```.
+2. Deploy the application using Helm: ``` helm install springboot-app helm-chart```.
+3. Verify the release using ``` helm list ```.
+4. Access the application: ``` http://spring-demo.com```
 
 ## Deployment
 
@@ -74,4 +75,5 @@ To update your application, make changes to the code, rebuild the Docker image, 
 
 - If you encounter issues with the application not starting, check the logs of the Spring Boot application: ``` kubectl logs <pod-name> ```
 - Ensure the MySQL database is up and running. You can check its status with: ``` kubectl get pods ```
+- If you encounter any issue from ingress side check the log from ingress side. ``` kubectl logs <ingress-pod-name> -n ingress --tail=100 -f ```
 - For more detailed troubleshooting, refer to the Kubernetes documentation or Spring Boot logs.
