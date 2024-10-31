@@ -16,11 +16,13 @@ springboot:
   replicas: 2
   service:
     name: springboot
-    port: 8080
+    port: 80
+    containerPort: 8080
+    targetPort: 8080
     type: ClusterIP
   app:
     name: springboot-app
-    host: spring-k8s-demo.com
+    host: spring-demo.com
   profile: prod
 
 

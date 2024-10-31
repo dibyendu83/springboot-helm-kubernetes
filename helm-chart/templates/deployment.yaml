@@ -12,12 +12,23 @@ spec:
       labels:
         app: {{ .Values.springboot.service.name }}
     spec:
+      initContainers:
+        - name: wait-for-mysql
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              until nc -z -v -w30 {{ .Values.mysql.service.name }} {{ .Values.mysql.service.port }}; do
+                echo "Waiting for MySQL...";
+                sleep 5;
+              done
       containers:
         - name: {{ .Values.springboot.app.name }}
           image: {{ .Values.springboot.image }}
           imagePullPolicy: {{ .Values.springboot.imagePullPolicy }}
           ports:
-            - containerPort: {{ .Values.springboot.service.port }}
+            - containerPort: {{ .Values.springboot.service.containerPort }}
           env:
             - name: SPRING_PROFILE
               valueFrom:
@@ -44,4 +55,10 @@ spec:
                   name: {{ .Values.springboot.app.name }}-secret
                   key: MYSQL_PASSWORD
             - name: SERVER_PORT
-              value: "{{ .Values.springboot.service.port }}"
+              value: "{{ .Values.springboot.service.containerPort }}"
+          readinessProbe:
+            httpGet:
+              port: {{ .Values.springboot.service.containerPort }}
+              path: /actuator/health
+            initialDelaySeconds: 10
+            periodSeconds: 10

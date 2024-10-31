@@ -43,12 +43,29 @@ spec:
             - containerPort: {{ .Values.mysql.service.port }}
           volumeMounts:
             - name: mysql-storage
-              mountPath: /var/lib/mysql  # MySQL data directory
+              mountPath: /var/lib/mysql
+            - name: schema-volume
+              mountPath: /docker-entrypoint-initdb.d
+      initContainers:
+        - name: download-script
+          image: curlimages/curl:latest
+          command:
+            - sh
+            - -c
+            - |
+              curl -L https://raw.githubusercontent.com/dibyendu83/springboot-helm-kubernetes/refs/heads/master/db-script/create_table.sql -o /schema/create_table.sql
+          volumeMounts:
+            - name: schema-volume
+              mountPath: /schema
+      volumes:
+        - name: schema-volume
+          emptyDir: {}
   volumeClaimTemplates:
     - metadata:
         name: mysql-storage  # Used in volumeMounts
       spec:
         accessModes: [ "ReadWriteOnce" ]
+        storageClassName: "local-path"
         resources:
           requests:
             storage: {{ .Values.mysql.pvc.storage }}

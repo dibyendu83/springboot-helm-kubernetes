@@ -3,7 +3,7 @@ spring:
     name: springboot-learning
 
   profiles:
-    active: ${SPRING_PROFILE}
+    active: ${SPRING_PROFILE:dev}
 
   thymeleaf:
     cache: false
@@ -11,8 +11,6 @@ spring:
     prefix: classpath:/templates/
 
   jpa:
-    hibernate:
-      ddl-auto: update
     database: mysql
     show-sql: true
 

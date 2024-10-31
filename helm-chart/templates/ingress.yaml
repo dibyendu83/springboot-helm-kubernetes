@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: springboot-app-ingress
+  name: {{ .Values.springboot.app.name }}-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
@@ -12,13 +12,13 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: spring-demo.com
+    - host: {{ .Values.springboot.app.host }}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: springboot
+                name: {{ .Values.springboot.service.name }}
                 port:
-                  number: 8080
+                  number: {{ .Values.springboot.service.port }}

@@ -38,7 +38,7 @@ public class SecurityConfiguration {
                         .deleteCookies("JSESSIONID"));
 
         httpSecurity.authorizeHttpRequests(req -> {
-            req.requestMatchers("/", "/login", "/signup", "/css/**", "/js/**").permitAll();
+            req.requestMatchers("/", "/login", "/signup", "/actuator/**", "/css/**", "/js/**").permitAll();
             req.anyRequest().authenticated();
         });
 
