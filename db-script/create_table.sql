@@ -1,4 +1,4 @@
-CREATE TABLE users
+CREATE TABLE IF NOT EXISTS users
 (
     id        BIGINT NOT NULL auto_increment,
     address   VARCHAR(1000) DEFAULT NULL,
